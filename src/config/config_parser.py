@@ -2,7 +2,7 @@ from os import path
 from pathlib import Path
 
 import config.exceptions as exc
-from converters.xml_to_dict import XmlToDictConverter
+from converters.xml_formatter import XmlToDictConverter
 
 
 class Config:

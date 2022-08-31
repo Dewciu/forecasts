@@ -1,3 +1,4 @@
+from re import S
 from turtle import fd
 import requests
 import sys
@@ -21,3 +22,7 @@ if __name__ == "__main__":
     print(type(response.json()))
 
     function_tee({'hej':'test', 'hejo':'tescik'})
+
+    str = '2022-08-31T18:00:00+00:00'
+
+    print(str[11:19])

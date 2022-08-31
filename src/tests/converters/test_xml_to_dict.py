@@ -1,4 +1,4 @@
-from converters.xml_to_dict import XmlToDictConverter, SystemXmlToDictConverter
+from converters.xml_formatter import XmlToDictConverter, SystemXmlToDictConverter
 from tests.converters.data import DICT_XML_DATA, DICT_XML_DATA_WITH_FILE
 
 path = '/Users/dewciu/Development/private/krypton_polska_zadanie/systems/system1.xml'
