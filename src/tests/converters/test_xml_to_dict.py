@@ -1,7 +1,7 @@
 from converters.xml_to_dict import XmlToDictConverter
 from tests.converters.data import DICT_XML_DATA
 
-path = '/Users/dewciu/Development/private/krypton_polska_zadanie/systems/system.xml'
+path = '/Users/dewciu/Development/private/krypton_polska_zadanie/systems/system1.xml'
 
 with open(path, 'r') as file:
     data = file.read()
