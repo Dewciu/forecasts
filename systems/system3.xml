@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    UUID="00000000-0000-2000-8000-00805F9B34F3" name="" description=""
+    >
+    <component UID="0df319f4-9d79-4e4f-b5c5-df1c28b49f57" name="G" longitude="-21.90" latitude="64.13">
+    </component>    
+    <component UID="4f7cb3c5-d2d7-472e-8b13-0b66437e35a0" name="H" longitude="-18.09" latitude="65.68">
+    </component>
+    <component UID="7e290402-ebab-4e77-9ea9-b8e8f9727302" name="J" longitude="-14.40" latitude="65.26">
+    </component>
+</system>

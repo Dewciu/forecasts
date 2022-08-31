@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    UUID="00000000-0000-2000-8000-00805F9B34FB">
+    <component UID="0df319f4-9d79-4e4f-b5c5-df1c28b49f57">
+        <model_parameters>
+            <dynamic>
+                <time_sequence sequence_type="temperature" base_time="2022-08-26T00:00:00" 
+                    rel_time="00:00:00 01:00:00 02:00:00 03:00:00 04:00:00 05:00:00 06:00:00 07:00:00 08:00:00 09:00:00 10:00:00 11:00:00 12:00:00 13:00:00 14:00:00 15:00:00 16:00:00 17:00:00 18:00:00 19:00:00 20:00:00 21:00:00 22:00:00 23:00:00
+                    " 
+                    data="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" />
+            </dynamic>
+        </model_parameters>
+    </component>    
+    <component UID="4f7cb3c5-d2d7-472e-8b13-0b66437e35a0">
+    </component>
+    <component UID="7e290402-ebab-4e77-9ea9-b8e8f9727302">
+    </component>
+</system>
