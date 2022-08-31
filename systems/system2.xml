@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <system xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    UUID="00000000-0000-2000-8000-00805F9B34F2" name="" description=""
+    UUID="00000000-0000-2000-8000-00805F9B34F2" name="" description="" update_period="20"
     >
     <component UID="0df319f4-9d79-4e4f-b5c5-df1c28b49f57" name="D" longitude="-23.12" latitude="64.13">
     </component>    

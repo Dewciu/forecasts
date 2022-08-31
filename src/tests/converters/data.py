@@ -31,7 +31,8 @@ DICT_XML_DATA_PERIOD = {   'system': {   'UUID': '00000000-0000-2000-8000-00805F
                   'description': '',
                   'name': '',
                   'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-                  'update_period': '20'}}
+                  'update_period': '20',
+                  'filename': 'system1.xml'}}
 
 LIST_XML_DATA = [{   'system': {   'UUID': '00000000-0000-2000-8000-00805F9B34FB',
                   'component': [   {   'UID': '0df319f4-9d79-4e4f-b5c5-df1c28b49f57',
@@ -49,7 +50,8 @@ LIST_XML_DATA = [{   'system': {   'UUID': '00000000-0000-2000-8000-00805F9B34FB
                   'description': '',
                   'name': '',
                   'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-                  'update_period': '20'}}, {   'system': {   'UUID': '00000000-0000-2000-8000-00805F9B34F3',
+                  'update_period': '20',
+                  'filename': 'system1.xml'}}, {   'system': {   'UUID': '00000000-0000-2000-8000-00805F9B34FB',
                   'component': [   {   'UID': '0df319f4-9d79-4e4f-b5c5-df1c28b49f57',
                                        'latitude': '64.13',
                                        'longitude': '-21.90',
@@ -64,7 +66,8 @@ LIST_XML_DATA = [{   'system': {   'UUID': '00000000-0000-2000-8000-00805F9B34FB
                                        'name': 'C'}],
                   'description': '',
                   'name': '',
-                  'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance'}}]
+                  'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                  'filename': 'system2.xml'}}]
 
 DICT_XML_DATA_INVALID_PERIOD = {   'system': {   'UUID': '00000000-0000-2000-8000-00805F9B34FB',
                   'component': [   {   'UID': '0df319f4-9d79-4e4f-b5c5-df1c28b49f57',
@@ -82,4 +85,23 @@ DICT_XML_DATA_INVALID_PERIOD = {   'system': {   'UUID': '00000000-0000-2000-800
                   'description': '',
                   'name': '',
                   'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-                  'update_period': 'test'}}
+                  'update_period': 'test',
+                  'filename': 'system1.xml'}}
+
+DICT_XML_DATA_WITH_FILE = {   'system': {   'UUID': '00000000-0000-2000-8000-00805F9B34FB',
+                  'component': [   {   'UID': '0df319f4-9d79-4e4f-b5c5-df1c28b49f57',
+                                       'latitude': '64.13',
+                                       'longitude': '-21.90',
+                                       'name': 'A'},
+                                   {   'UID': '4f7cb3c5-d2d7-472e-8b13-0b66437e35a0',
+                                       'latitude': '65.68',
+                                       'longitude': '-18.09',
+                                       'name': 'B'},
+                                   {   'UID': '7e290402-ebab-4e77-9ea9-b8e8f9727302',
+                                       'latitude': '65.26',
+                                       'longitude': '-14.40',
+                                       'name': 'C'}],
+                  'description': '',
+                  'name': '',
+                  'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                  'filename': 'system1.xml'}}

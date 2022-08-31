@@ -13,8 +13,10 @@ def test_system_conversion_with_update_period_dict():
 
     components = DICT_XML_DATA_PERIOD['system']['component']
     uuid = DICT_XML_DATA_PERIOD['system']['UUID']
+    filename = 'system1.xml'
 
-    system_list = [System(uuid=uuid,
+    system_list = [System(filename=filename,
+                          uuid=uuid,
                           components=components, update_period=20)]
 
     assert SystemDataclassConverter().convert(DICT_XML_DATA_PERIOD) == system_list
@@ -28,9 +30,14 @@ def test_system_conversion_list():
     uuid1 = LIST_XML_DATA[0]['system']['UUID']
     uuid2 = LIST_XML_DATA[1]['system']['UUID']
 
-    system_list = [System(uuid=uuid1,
-                          components=components1, update_period=20), System(uuid=uuid2,
-                                                                            components=components2, update_period=None)]
+    filename1 = 'system1.xml'
+    filename2 = 'system2.xml'
+
+    system_list = [System(filename=filename1,
+                          uuid=uuid1,
+                          components=components1, update_period=20), System(
+        filename=filename2, uuid=uuid2,
+        components=components2, update_period=None)]
 
     assert SystemDataclassConverter().convert(LIST_XML_DATA) == system_list
 
@@ -39,8 +46,9 @@ def test_component_conversion():
     components = DICT_XML_DATA_PERIOD['system']['component']
     uuid = DICT_XML_DATA_PERIOD['system']['UUID']
     update_period = DICT_XML_DATA_PERIOD['system']['update_period']
+    filename = 'system1.xml'
 
-    system = System(uuid, components, update_period)
+    system = System(filename, uuid, components, update_period)
 
     components_dataclasses = [
         Component(DICT_XML_DATA_PERIOD['system']['UUID'],
