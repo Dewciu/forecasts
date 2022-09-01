@@ -1,5 +1,5 @@
 from tests.converters.data import DICT_XML_DATA_PERIOD, LIST_XML_DATA, DICT_XML_DATA_INVALID_PERIOD
-from converters.module_dataclasses import System, SystemDataclassConverter, ComponentDataclassConverter, Component
+from converters.dataclasses_converters import System, SystemDataclassConverter, ComponentDataclassConverter, Component
 import pytest
 from dataclasses import asdict
 

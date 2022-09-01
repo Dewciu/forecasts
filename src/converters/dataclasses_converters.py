@@ -16,7 +16,6 @@ class System:
 
 @dataclass
 class Component:
-    base_system_uuid: str
     uid: str
     latitude: str
     longitude: str
@@ -25,14 +24,16 @@ class Component:
 
 @dataclass
 class ComponentTemperature:
-    component: Component
     time: str
     temperature: int
     unit: str
 
     def __post_init__(self):
         if self.unit == 'F':
-            self.temperature = (self.temperature-32)/1.8
+            self.temperature = int((self.temperature-32)/1.8)
+            self.unit = 'C'
+        elif self.unit == 'K':
+            self.temperature = int(self.temperature-273.15)
             self.unit = 'C'
 
 
@@ -119,46 +120,41 @@ class ComponentDataclassConverter(DataclassConverter):
 
     def convert(self, system: System) -> list:
         if is_dataclass(system):
-            return self._convert_from_dict_or_list(system.uuid, system.components)
+            return self._convert_from_dict_or_list(system.components)
 
-    def _convert_from_dict_or_list(self, base_system_uuid, components) -> list:
+    def _convert_from_dict_or_list(self, components) -> list:
         ret_list = []
 
         if isinstance(components, list):
-            ret_list.extend(self._convert_from_list(
-                base_system_uuid, components))
+            ret_list.extend(self._convert_from_list(components))
         elif isinstance(components, dict):
-            ret_list.append(self._convert_from_dict(
-                base_system_uuid, components))
+            ret_list.append(self._convert_from_dict(components))
 
         if ret_list != []:
             return ret_list
 
-    def _convert_from_dict(self, bs_uuid: str, component: dict) -> dataclass:
+    def _convert_from_dict(self, component: dict) -> dataclass:
         try:
-
-            base_system_uuid = bs_uuid
             uid = component[self.uid_key]
             latitude = component[self.latitude_key]
             longitude = component[self.longitude_key]
             name = component[self.name_key]
 
-            return self.component_dataclass(base_system_uuid, uid, latitude, longitude, name)
+            return self.component_dataclass(uid, latitude, longitude, name)
 
         except KeyError as key:
             logging.error(
                 f'Invalid key ({key}) in dictionary, cannot convert to dataclass')
 
-    def _convert_from_list(self, base_system_uuid: str, components: list) -> list:
+    def _convert_from_list(self, components: list) -> list:
         ret_list = []
         for component in components:
-            ret_list.append(self._convert_from_dict(
-                base_system_uuid, component))
+            ret_list.append(self._convert_from_dict(component))
 
         return ret_list
 
 
-class ComponentTemperatureDataclassConverter(DataclassConverter):
+class AccuWeatherComponentTemperatureDataclassConverter(DataclassConverter):
 
     def __init__(self):
         self.comp_temp_dataclass = ComponentTemperature
@@ -167,30 +163,31 @@ class ComponentTemperatureDataclassConverter(DataclassConverter):
         self.temp_unit_key = 'Unit'
         self.date_time_key = 'DateTime'
 
-    def convert(self, component: Component, temperature) -> list:
+    def convert(self, temperature) -> list:
         ret_list = []
         if isinstance(temperature, list):
-            ret_list.extend(self._convert_from_list(component, temperature))
+            ret_list.extend(self._convert_from_list(temperature))
         elif isinstance(temperature, dict):
-            ret_list.append(self._convert_from_dict(component, temperature))
+            ret_list.append(self._convert_from_dict(temperature))
 
-    def _convert_from_dict(self, comp: Component, temp: dict) -> dataclass:
+        return ret_list
+
+    def _convert_from_dict(self, temp: dict) -> dataclass:
         try:
-            component = comp
             time = self._get_proper_time(temp[self.date_time_key])
             temperature = int(temp[self.temp_key][self.temp_val_key])
             unit = temp[self.temp_key][self.temp_unit_key]
 
-            return self.comp_temp_dataclass(component, time, temperature, unit)
+            return self.comp_temp_dataclass(time, temperature, unit)
 
         except KeyError as key:
             logging.error(
                 f'Invalid key ({key}) in dictionary, cannot convert to dataclass')
 
-    def _convert_from_list(self, component: Component, temperature: list) -> list:
+    def _convert_from_list(self, temperature: list) -> list:
         ret_list = []
         for temp in temperature:
-            ret_list.append(self._convert_from_dict(component, temp))
+            ret_list.append(self._convert_from_dict(temp))
 
         return ret_list
 

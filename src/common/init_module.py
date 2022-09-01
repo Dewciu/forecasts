@@ -1,13 +1,16 @@
 import os
 from common.file_manger import SystemsFileManager
+from common.forecasts_managers import TemperatureManagerCreator
 
 class Module:
 
     def __init__(self, config: dict):
-        self.entry_path = config['entry_path']
         self.output_path = config['output_path']
         self.mode = config['mode']
-        self.api_key = config['api_key']
+        self.systems = SystemsFileManager().get_data(config['entry_path'])
+        self.forecasts_managers = [
+            TemperatureManagerCreator(config['api_key'])
+        ]
 
     def run(self):
         if self.mode == 'single_time':
@@ -16,7 +19,10 @@ class Module:
             self._continous_run()
 
     def _single_run(self):
-        print(SystemsFileManager().get_data(self.entry_path))
+        for system in self.systems:
+            # print(self.forecasts_managers[0].get_data_for_system(system))
+            pass
+
 
     def _continous_run(self):
         pass

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from genericpath import isdir, isfile
 from converters.xml_formatter import SystemXmlToDictConverter
-from converters.module_dataclasses import SystemDataclassConverter
+from converters.dataclasses_converters import SystemDataclassConverter
 import os
 import glob
 

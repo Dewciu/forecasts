@@ -1,5 +1,5 @@
 import logging
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -40,7 +40,7 @@ class Request:
             return True
 
 
-class RequestCreator(ABCMeta):
+class RequestCreator(ABC):
 
     def __init__(self):
         self.request = Request()
@@ -70,7 +70,7 @@ class AccuWeatherGeopositionRequest(RequestCreator):
         return self.request.get_data()
 
     def _set_credentials_for_request(self, apikey: str, geo_position: str):
-        self.error_status_codes = ['400', '401', '403', '404', '500']
+        self.error_status_codes = [400, 401, 403, 404, 500, 503]
         self.url = self.base_url
         self.request.set_credentials(
             self.url, self.error_status_codes, apikey=apikey, q=geo_position)
@@ -90,7 +90,7 @@ class AccuWeather12HoursForecastsRequest(RequestCreator):
         return self.request.get_data()
 
     def _set_credentials_for_request(self, apikey: str, localization_id: str) -> None:
-        self.error_status_codes = ['400', '401', '403', '404', '500']
+        self.error_status_codes = [400, 401, 403, 404, 500, 503]
         self.url = self._set_url(localization_id)
         self.request.set_credentials(
             self.url, self.error_status_codes, apikey=apikey)

@@ -4,8 +4,8 @@
     >
     <component UID="0df319f4-9d79-4e4f-b5c5-df1c28b49f57" name="D" longitude="-23.12" latitude="64.13">
     </component>    
-    <component UID="4f7cb3c5-d2d7-472e-8b13-0b66437e35a0" name="E" longitude="-18.09" latitude="65.68">
-    </component>
+    <component UID="0df319f4-9d79-4e4f-b5c5-df1c28b49f57" name="D" longitude="-23.12" latitude="64.13">
+    </component>   
     <component UID="7e290402-ebab-4e77-9ea9-b8e8f9727302" name="F" longitude="-14.40" latitude="65.26">
     </component>
 </system>
