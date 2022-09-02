@@ -37,3 +37,8 @@ class SystemXmlToDictConverter(XmlToDictConverter):
         head, filename = os.path.split(file_path)
 
         return filename
+
+class DictToXmlConverter:
+
+    def get_xml_string_from_dictionary(self, dictionary: dict):
+        return xmltodict.unparse(dictionary, pretty=True)

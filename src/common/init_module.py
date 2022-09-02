@@ -1,13 +1,18 @@
-import os
-from common.file_manger import SystemsFileManager
+import concurrent.futures as cf
+import logging
+from common.file_manger import SystemsXmlFileManager
 from common.forecasts_managers import TemperatureManagerCreator
+from converters.dataclasses_converters import System
+from converters.output_data_formatter import FinalOutputDataFormatter
+import time
+from threading import Thread
 
 class Module:
 
     def __init__(self, config: dict):
         self.output_path = config['output_path']
         self.mode = config['mode']
-        self.systems = SystemsFileManager().get_data(config['entry_path'])
+        self.systems = SystemsXmlFileManager().get_data(config['entry_path'])
         self.forecasts_managers = [
             TemperatureManagerCreator(config['api_key'])
         ]
@@ -20,9 +25,40 @@ class Module:
 
     def _single_run(self):
         for system in self.systems:
-            # print(self.forecasts_managers[0].get_data_for_system(system))
-            pass
+            self._get_data_and_save_to_file(system)
 
 
     def _continous_run(self):
-        pass
+        threads = []
+        for system in self.systems:
+            
+            thread = Thread(target=self._create_loop, args=(system,))
+            threads.append(thread)
+            thread.start()
+
+    def _get_data(self, system: System) -> dict:
+        forecast_data = []
+
+        for manager in self.forecasts_managers:
+            data = manager.get_data_for_system(system)
+            forecast_data.extend(data)
+
+        return FinalOutputDataFormatter().get_formatted_data(system, forecast_data)
+
+    def _get_data_and_save_to_file(self, system: System):
+        data = self._get_data(system)
+        SystemsXmlFileManager().save_data(system, data, self.output_path)
+
+    def _create_loop(self, system: System):
+
+        update_period = system.update_period
+
+        if update_period is None:
+            update_period = 30
+
+        logging.info(f"Starting loop for file: {system.filename}, update_period: {update_period} sec.")
+
+        while True:        
+            self._get_data_and_save_to_file(system)
+
+            time.sleep(update_period)

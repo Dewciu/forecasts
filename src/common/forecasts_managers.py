@@ -1,13 +1,14 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
-from re import T
 import converters.dataclasses_converters as dc
+import converters.output_data_formatter as odf
 import weather_requests.request as req
 
 class ForecastManager:
 
     forecast_req: req.RequestCreator = None
     forecasts_converter: dc.DataclassConverter = None
+    output_formatter: odf.SingleTypeOutputDataFormatter = None
     req_api_key: str = None
     sequence_type_name: str = None
 
@@ -20,7 +21,12 @@ class ForecastManager:
     def get_data(self, system: dc.System):
         self.system = system
 
-        return self._get_forecast_data_for_all_components()
+        return self._get_output_formatted_data()
+
+    def _get_output_formatted_data(self):
+        component_data = self._get_forecast_data_for_all_components()
+        flat_comp_list = [component for sublist in component_data for component in sublist]
+        return self.output_formatter.get_formatted_data(flat_comp_list)
 
     def _get_component_list(self) -> list:
         return self.component_converter.convert(self.system)
@@ -119,6 +125,10 @@ class ForecastManagerCreator(ABC):
     def _get_sequence_type_name(self) -> str:
         return ''
 
+    @abstractmethod
+    def _get_single_type_output_data_formatter(self) -> odf.SingleTypeOutputDataFormatter:
+        return odf.SingleTypeOutputDataFormatter()
+
     def get_data_for_system(self, system: dc.System):
         forecast_manager = self._get_configured_forecast_manager()
         return forecast_manager.get_data(system)
@@ -127,6 +137,7 @@ class ForecastManagerCreator(ABC):
         forecast_manager = self.factory_method()
         forecast_manager.forecast_req = self._get_forecast_request_class()
         forecast_manager.forecasts_converter = self._get_specific_forecast_dataclass_converter()
+        forecast_manager.output_formatter = self._get_single_type_output_data_formatter()
         forecast_manager.req_api_key = self.api_key
         forecast_manager.sequence_type_name = self._get_sequence_type_name()
 
@@ -151,6 +162,9 @@ class TemperatureManagerCreator(ForecastManagerCreator):
 
     def _get_sequence_type_name(self) -> str:
         return 'temperature'
+
+    def _get_single_type_output_data_formatter(self) -> odf.SingleTypeOutputDataFormatter:
+        return odf.OutputTemperatureFormatter()
 
 # class RainManager(ForecastManager):
 #     pass
