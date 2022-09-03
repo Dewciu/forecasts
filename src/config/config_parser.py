@@ -1,8 +1,9 @@
 from os import path
 from pathlib import Path
 
-import config.exceptions as exc
 from converters.xml_formatter import XmlToDictConverter
+
+import config.exceptions as exc
 
 
 class Config:
@@ -69,4 +70,3 @@ class Config:
             return 'continous'
         elif mode == '-s':
             return 'single_time'
-

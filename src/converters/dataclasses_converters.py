@@ -24,6 +24,8 @@ class Component:
 
 @dataclass
 class ComponentTemperature:
+    """All another component types should provide a time, otherwise it will cause exception."""
+
     time: str
     temperature: int
     unit: str

@@ -11,7 +11,17 @@ from common.forecasts_managers import TemperatureManagerCreator
 
 class Module:
 
+    """
+    Main Module which chooses a mode, and then mainatins specific modes.
+    """
+
     def __init__(self, config: dict):
+        
+        """
+        In forecast_managers can define specific forecast manager creator which will handle seprate weather parameter type,
+        like temperature, clouds, rain etc.
+        """
+
         self.output_path = config['output_path']
         self.mode = config['mode']
         self.systems = SystemsXmlFileManager().get_data(config['entry_path'])
@@ -42,7 +52,8 @@ class Module:
 
         for manager in self.forecasts_managers:
             data = manager.get_data_for_system(system)
-            forecast_data.extend(data)
+            if data is not None:
+                forecast_data.extend(data)
 
         return FinalOutputDataFormatter().get_formatted_data(system, forecast_data)
 

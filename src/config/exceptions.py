@@ -14,6 +14,7 @@ class InitArgsCountError(Exception):
     def __str__(self) -> str:
         return f"{self.message}: Should be 3 (input path, output path and mode)."
 
+
 class InitArgsPathNotExists(Exception):
     """Exception raised, when invalid path from init args was parsed.
 
@@ -21,6 +22,7 @@ class InitArgsPathNotExists(Exception):
         path - input path, which caused the error,
         message - explenation of the error
     """
+
     def __init__(self, path: str, message="Path does not exist"):
         self.path = path
         self.message = message
@@ -37,6 +39,7 @@ class InitArgsInvalidModeType(Exception):
         mode - input mode, which caused the error,
         message - explenation of the error
     """
+
     def __init__(self, mode: str, valid_modes: str, message="Invalid mode type"):
         self.mode = mode
         self.valid_modes = valid_modes

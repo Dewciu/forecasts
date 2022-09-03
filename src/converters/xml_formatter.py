@@ -1,5 +1,6 @@
-import xmltodict
 import os
+
+import xmltodict
 
 
 class XmlToDictConverter:
@@ -38,7 +39,9 @@ class SystemXmlToDictConverter(XmlToDictConverter):
 
         return filename
 
+
 class DictToXmlConverter:
 
     def get_xml_string_from_dictionary(self, dictionary: dict):
-        return xmltodict.unparse(dictionary, pretty=True)
+        if dictionary is not None:
+            return xmltodict.unparse(dictionary, pretty=True)

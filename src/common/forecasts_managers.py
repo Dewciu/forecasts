@@ -1,10 +1,24 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
+
 import converters.dataclasses_converters as dc
 import converters.output_data_formatter as odf
 import weather_requests.request as req
 
+
 class ForecastManager:
+
+    """
+    Base forecast manager, which is a base class for specific
+    forecast managers like temperature manager or rain manager.
+    There is a need to set class values like:
+    
+    forecast_req - request class which should inherit interface from RequestCreator,
+    forecasts_converter - specific dataclass converter which should inherit from DataclassConverter,
+    output_formatter - specific output formatter which should inherit from SingleTypeOutputDataFormatter,
+    req_api_key - api key parsed from config values, which should be provided from ./api_keys/ path,
+    sequence_type_name - string name of specific forecast, for example - 'temperature' or 'rain'
+    """
 
     forecast_req: req.RequestCreator = None
     forecasts_converter: dc.DataclassConverter = None
@@ -19,14 +33,17 @@ class ForecastManager:
         self.geoposition_resp_id_key = 'Key'
 
     def get_data(self, system: dc.System):
+        """Get data interface for getting formatted forecast data, ready to be converted by output converter."""
         self.system = system
 
         return self._get_output_formatted_data()
 
     def _get_output_formatted_data(self):
         component_data = self._get_forecast_data_for_all_components()
-        flat_comp_list = [component for sublist in component_data for component in sublist]
-        return self.output_formatter.get_formatted_data(flat_comp_list)
+        if component_data is not None:
+            flat_comp_list = [
+                component for sublist in component_data for component in sublist]
+            return self.output_formatter.get_formatted_data(flat_comp_list)
 
     def _get_component_list(self) -> list:
         return self.component_converter.convert(self.system)
@@ -73,10 +90,10 @@ class ForecastManager:
             return forecast_data
 
     def _get_forecast_data_for_single_component_set(self, comp_set: dict) -> list:
-        data = self.forecast_req.get_data(self.req_api_key, comp_set['loc_key'])
+        data = self.forecast_req.get_data(
+            self.req_api_key, comp_set['loc_key'])
 
         return self._get_forecast_data(data, comp_set)
-
 
     def _get_forecast_data(self, data: list, comp_set: dict) -> list:
         ret_forecast_data_list = []
@@ -87,12 +104,11 @@ class ForecastManager:
                 forecast_data = self.forecasts_converter.convert(data)
 
                 ret_forecast_data_list.append(dict(sequence_type=self.sequence_type_name,
-                                                base_time = self._get_base_time(),
-                                                component=component,
-                                                forecast_data=forecast_data))
+                                                   base_time=self._get_base_time(),
+                                                   component=component,
+                                                   forecast_data=forecast_data))
 
             return ret_forecast_data_list
-
 
     @staticmethod
     def _get_converted_geoposition(component: dc.Component):
@@ -106,27 +122,37 @@ class ForecastManager:
 
 class ForecastManagerCreator(ABC):
 
+    """
+    Base forecast manager creator which sets specific parameters for base ForecastManager class.
+    All specific ForecastManagersCreators should provide all abstractmethod."""
+
     def __init__(self, api_key: str):
         self.api_key = api_key
 
     @abstractmethod
     def factory_method(self) -> ForecastManager:
+        """Should return specific forecast manager class."""
         return ForecastManager()
 
     @abstractmethod
     def _get_specific_forecast_dataclass_converter(self) -> dc.DataclassConverter:
+        """Should return specific forecast dataclass converter, like temperature converter
+        or rain converter."""
         return dc.DataclassConverter()
 
     @abstractmethod
     def _get_forecast_request_class(self) -> req.RequestCreator:
+        """Should return request class for specific forecast."""
         return req.RequestCreator()
 
     @abstractmethod
     def _get_sequence_type_name(self) -> str:
+        """Should return string with name of specific sequence, like: 'temperature' or 'rain'"""
         return ''
 
     @abstractmethod
     def _get_single_type_output_data_formatter(self) -> odf.SingleTypeOutputDataFormatter:
+        """Should return single type output data formatter class."""
         return odf.SingleTypeOutputDataFormatter()
 
     def get_data_for_system(self, system: dc.System):
@@ -134,6 +160,8 @@ class ForecastManagerCreator(ABC):
         return forecast_manager.get_data(system)
 
     def _get_configured_forecast_manager(self) -> ForecastManager:
+        """Setting all credentials for specific forecast manager."""
+
         forecast_manager = self.factory_method()
         forecast_manager.forecast_req = self._get_forecast_request_class()
         forecast_manager.forecasts_converter = self._get_specific_forecast_dataclass_converter()
@@ -145,7 +173,7 @@ class ForecastManagerCreator(ABC):
 
 
 class TemperatureManager(ForecastManager):
-
+    """Specific temperature manager class"""
     pass
 
 

@@ -1,8 +1,11 @@
 from abc import ABC, abstractmethod
+
 import converters.dataclasses_converters as dc
 
 
 class SingleTypeOutputDataFormatter(ABC):
+
+    """Class which converts data to the json file, that is acceptable by xmltodict module."""
 
     sequence_type_key = 'sequence_type'
     base_time_key = 'base_time'
@@ -109,28 +112,29 @@ class FinalOutputDataFormatter:
         c_forecast_data = self._create_time_sequence_list_for_single_component(
             forecast_data)
 
-        for component_set in c_forecast_data:
-            single_comp_dict = {
-                "@UID": component_set[self.component_key].uid,
-                "model_parameters": {
-                    "dynamic": {
-                        "time_sequence": component_set[self.time_sequence_key]
+        if c_forecast_data is not None:
+            for component_set in c_forecast_data:
+                single_comp_dict = {
+                    "@UID": component_set[self.component_key].uid,
+                    "model_parameters": {
+                        "dynamic": {
+                            "time_sequence": component_set[self.time_sequence_key]
+                        }
                     }
                 }
-            }
 
-            comp_output_list.append(single_comp_dict)
+                comp_output_list.append(single_comp_dict)
 
         if comp_output_list != []:
             return comp_output_list
 
     def _create_system_output_dict(self, system: dc.System, forecast_data: list) -> dict:
         component_list = self._create_components_output_list(forecast_data)
-
-        return {
-            "system": {
-                "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                "@UUID": system.uuid,
-                "component": component_list
+        if component_list is not None:
+            return {
+                "system": {
+                    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+                    "@UUID": system.uuid,
+                    "component": component_list
+                }
             }
-        }

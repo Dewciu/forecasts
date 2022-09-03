@@ -2,6 +2,7 @@
 
 This is simple weather forecast application for particular latitude and longitude.
 Module takes data from system .xml files and saving forecasts for each in separate .xml files.
+Weather forecast information is provided via https://developer.accuweather.com
 
 ## Requirements
 
@@ -20,6 +21,16 @@ Install all the requirements from requirements.txt file.
 
 ```bash
 pip install -r requirements.txt
+```
+
+Create account on https://developer.accuweather.com and get the API key.
+
+Paste key in api_keys/api_key.xml to the 'key' attribute.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<api_key key='YOUR KEY'>
+</api_key>
 ```
 
 ## Usage
