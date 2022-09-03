@@ -67,8 +67,8 @@ class AccuWeatherGeopositionRequest(RequestCreator):
 
     def get_data(self, apikey: str, geo_position: str) -> list:
         self._set_credentials_for_request(apikey, geo_position)
-        # return self.request.get_data()
-        return LOC
+        return self.request.get_data()
+        # return LOC
 
     def _set_credentials_for_request(self, apikey: str, geo_position: str):
         self.error_status_codes = [400, 401, 403, 404, 500, 503]
@@ -88,8 +88,8 @@ class AccuWeather12HoursForecastsRequest(RequestCreator):
 
     def get_data(self, apikey: str, localization_id: str) -> list:
         self._set_credentials_for_request(apikey, localization_id)
-        # return self.request.get_data()
-        return WEATHER
+        return self.request.get_data()
+        # return WEATHER
         
     def _set_credentials_for_request(self, apikey: str, localization_id: str) -> None:
         self.error_status_codes = [400, 401, 403, 404, 500, 503]

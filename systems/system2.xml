@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <system xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    UUID="00000000-0000-2000-8000-00805F9B34F2" name="" description="" update_period="5"
+    UUID="00000000-0000-2000-8000-00805F9B34F2" name="" description="" update_period="30"
     >
-    <component UID="0df319f4-9d79-4e4f-b5c5-df1c28b49f57" name="D" longitude="-23.12" latitude="64.13">
+    <component UID="0df319f4-9d79-4e4f-b5c5-df1c28b49f57" name="D" longitude="19.11" latitude="50.80">
     </component>    
-    <component UID="0df319f4-9d79-4e4f-b5c5-df1c28b49f57" name="D" longitude="-23.12" latitude="64.13">
+    <component UID="0df319f4-9d79-4e4f-b5c5-df1c28b49f57" name="D" longitude="9.18" latitude="45.46">
     </component>   
-    <component UID="7e290402-ebab-4e77-9ea9-b8e8f9727302" name="F" longitude="-14.40" latitude="65.26">
+    <component UID="7e290402-ebab-4e77-9ea9-b8e8f9727302" name="F" longitude="2.20" latitude="48.52">
     </component>
 </system>
