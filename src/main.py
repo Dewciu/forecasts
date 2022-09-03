@@ -1,6 +1,5 @@
 import logging
 import sys
-import xmltodict
 
 from common.init_module import Module
 from config.config_parser import Config
