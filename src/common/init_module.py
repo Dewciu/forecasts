@@ -6,7 +6,7 @@ from converters.dataclasses_converters import System
 from converters.output_data_formatter import FinalOutputDataFormatter
 
 from common.file_manger import SystemsXmlFileManager
-from common.forecasts_managers import TemperatureManagerCreator
+from common.forecasts_managers import TemperatureManagerCreator, DaylightManagerCreator
 
 
 class Module:
@@ -26,7 +26,8 @@ class Module:
         self.mode = config['mode']
         self.systems = SystemsXmlFileManager().get_data(config['entry_path'])
         self.forecasts_managers = [
-            TemperatureManagerCreator(config['api_key'])
+            TemperatureManagerCreator(config['api_key']),
+            DaylightManagerCreator(config['api_key'])
         ]
 
     def run(self):
@@ -57,9 +58,10 @@ class Module:
         for manager in self.forecasts_managers:
             data = manager.get_data_for_system(system)
             if data is not None:
-                forecast_data.extend(data)
+                forecast_data.append(data)
 
-        return FinalOutputDataFormatter().get_formatted_data(system, forecast_data)
+        if forecast_data != []:
+            return FinalOutputDataFormatter().get_formatted_data(system, forecast_data)
 
     def _get_data_and_save_to_file(self, system: System):
         data = self._get_data(system)

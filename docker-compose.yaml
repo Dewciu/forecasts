@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  forecasts:
+      image: forecasts
+      restart: always
+      volumes:
+        - ./systems:/forecasts/systems
+        - ./api_keys:/forecasts/api_keys

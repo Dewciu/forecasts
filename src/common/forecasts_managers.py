@@ -176,6 +176,8 @@ class TemperatureManager(ForecastManager):
     """Specific temperature manager class"""
     pass
 
+class DaylightManager(ForecastManager):
+    pass
 
 class TemperatureManagerCreator(ForecastManagerCreator):
 
@@ -194,10 +196,19 @@ class TemperatureManagerCreator(ForecastManagerCreator):
     def _get_single_type_output_data_formatter(self) -> odf.SingleTypeOutputDataFormatter:
         return odf.OutputTemperatureFormatter()
 
-# class RainManager(ForecastManager):
-#     pass
+class DaylightManagerCreator(ForecastManagerCreator):
 
-# class RainManagerCreator(ForecastManagerCreator):
+    def factory_method(self) -> ForecastManager:
+        return DaylightManager()
 
-#     def factory_method(self) -> ForecastManager:
-#         return RainManager()
+    def _get_specific_forecast_dataclass_converter(self) -> dc.DataclassConverter:
+        return dc.AccuWeatherComponentDaylightDataclassConverter()
+
+    def _get_forecast_request_class(self) -> req.RequestCreator:
+        return req.AccuWeather12HoursForecastsRequest()
+
+    def _get_sequence_type_name(self) -> str:
+        return 'day_light'
+
+    def _get_single_type_output_data_formatter(self) -> odf.SingleTypeOutputDataFormatter:
+        return odf.OutputDaylightFormatter()

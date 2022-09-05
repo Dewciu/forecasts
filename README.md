@@ -100,23 +100,44 @@ python src/main.py systems forecasts -c
 	<component UID="0df319f4-9d79-4e4f-b5c5-df1c28b49f57">
 		<model_parameters>
 			<dynamic>
-				<time_sequence sequence_type="temperature" base_time="2022-09-02T19:57:58" rel_time="18:00:00 19:00:00 20:00:00 21:00:00 22:00:00 23:00:00 00:00:00 01:00:00 02:00:00 03:00:00 04:00:00 05:00:00" data="13 13 12 12 11 10 10 10 9 9 8 8"></time_sequence>
+				<time_sequence sequence_type="temperature" base_time="2022-09-05T22:37:08" rel_time="21:00:00 22:00:00 23:00:00 00:00:00 01:00:00 02:00:00 03:00:00 04:00:00 05:00:00 06:00:00 07:00:00 08:00:00" data="11 11 10 10 10 10 10 8 9 9 9 11"></time_sequence>
+				<time_sequence sequence_type="day_light" base_time="2022-09-05T22:37:08" rel_time="21:00:00 22:00:00 23:00:00 00:00:00 01:00:00 02:00:00 03:00:00 04:00:00 05:00:00 06:00:00 07:00:00 08:00:00" data="false false false false false false false false false false true true"></time_sequence>
 			</dynamic>
 		</model_parameters>
 	</component>
 	<component UID="4f7cb3c5-d2d7-472e-8b13-0b66437e35a0">
 		<model_parameters>
 			<dynamic>
-				<time_sequence sequence_type="temperature" base_time="2022-09-02T19:57:58" rel_time="18:00:00 19:00:00 20:00:00 21:00:00 22:00:00 23:00:00 00:00:00 01:00:00 02:00:00 03:00:00 04:00:00 05:00:00" data="12 11 11 11 10 10 10 10 9 8 8 8"></time_sequence>
+				<time_sequence sequence_type="temperature" base_time="2022-09-05T22:37:08" rel_time="21:00:00 22:00:00 23:00:00 00:00:00 01:00:00 02:00:00 03:00:00 04:00:00 05:00:00 06:00:00 07:00:00 08:00:00" data="11 11 10 10 10 10 10 8 9 9 9 11"></time_sequence>
+				<time_sequence sequence_type="day_light" base_time="2022-09-05T22:37:08" rel_time="21:00:00 22:00:00 23:00:00 00:00:00 01:00:00 02:00:00 03:00:00 04:00:00 05:00:00 06:00:00 07:00:00 08:00:00" data="false false false false false false false false false false true true"></time_sequence>
 			</dynamic>
 		</model_parameters>
 	</component>
 	<component UID="7e290402-ebab-4e77-9ea9-b8e8f9727302">
 		<model_parameters>
 			<dynamic>
-				<time_sequence sequence_type="temperature" base_time="2022-09-02T19:57:58" rel_time="18:00:00 19:00:00 20:00:00 21:00:00 22:00:00 23:00:00 00:00:00 01:00:00 02:00:00 03:00:00 04:00:00 05:00:00" data="11 11 10 10 9 9 8 8 8 8 8 7"></time_sequence>
+				<time_sequence sequence_type="temperature" base_time="2022-09-05T22:37:08" rel_time="21:00:00 22:00:00 23:00:00 00:00:00 01:00:00 02:00:00 03:00:00 04:00:00 05:00:00 06:00:00 07:00:00 08:00:00" data="11 11 10 10 10 10 10 8 9 9 9 11"></time_sequence>
+				<time_sequence sequence_type="day_light" base_time="2022-09-05T22:37:08" rel_time="21:00:00 22:00:00 23:00:00 00:00:00 01:00:00 02:00:00 03:00:00 04:00:00 05:00:00 06:00:00 07:00:00 08:00:00" data="false false false false false false false false false false true true"></time_sequence>
 			</dynamic>
 		</model_parameters>
 	</component>
 </system>
+```
+
+
+### Deploy on Docker
+
+If you want to deploy this application on Docker, you have all setup prepared.
+All you need to do is build the image from Dockerfile.
+
+
+```baah
+docker image build --tag forecasts .
+```
+
+Docker Compose was used becouse of volumes, which give us a possibility to change processed XML data in the container.
+Everything you put in the systems repository folder, will be processed in the container. The same with API key.
+
+```bash
+docker-compose up -d
 ```

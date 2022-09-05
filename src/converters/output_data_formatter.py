@@ -79,6 +79,16 @@ class OutputTemperatureFormatter(SingleTypeOutputDataFormatter):
 
         return forecast_data_list
 
+class OutputDaylightFormatter(SingleTypeOutputDataFormatter):
+
+    @staticmethod
+    def _create_forecast_data_list(forecast_data: list) -> list:
+        forecast_data_list = []
+        for forecast in forecast_data:
+            forecast_data_list.append(forecast.daylight)
+
+        return forecast_data_list
+
 
 class FinalOutputDataFormatter:
 
@@ -107,10 +117,35 @@ class FinalOutputDataFormatter:
         if single_component_time_seq_list != []:
             return single_component_time_seq_list
 
+    def _get_converted_forecast_data(self, forecast_data: list) -> list:
+        ret_data = []
+        for data in forecast_data:
+            ret_data.append(self._create_time_sequence_list_for_single_component(data))
+
+        if ret_data != []:
+            return ret_data
+
+    def _combine_forecasts(self, forecast_data: list) -> list:
+        ret_list = []
+        comp_list = []
+        flatted_list = [dictionary for sublist in forecast_data for dictionary in sublist]
+
+        for forecast in flatted_list:
+            if forecast[self.component_key] not in comp_list:
+                comp_list.append(forecast[self.component_key])
+                ret_list.append(forecast)
+            else:
+                for item in ret_list:
+                    if item[self.component_key] == forecast[self.component_key]:
+                        item[self.time_sequence_key].extend(forecast[self.time_sequence_key])
+
+        return ret_list
+
     def _create_components_output_list(self, forecast_data: list) -> list:
         comp_output_list = []
-        c_forecast_data = self._create_time_sequence_list_for_single_component(
-            forecast_data)
+        data = self._get_converted_forecast_data(forecast_data)
+
+        c_forecast_data = self._combine_forecasts(data)
 
         if c_forecast_data is not None:
             for component_set in c_forecast_data:

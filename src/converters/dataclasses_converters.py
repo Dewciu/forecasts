@@ -38,6 +38,11 @@ class ComponentTemperature:
             self.temperature = int(self.temperature-273.15)
             self.unit = 'C'
 
+@dataclass
+class ComponentDaylight:
+    
+    time: str
+    daylight: str
 
 class DataclassConverter(ABC):
 
@@ -186,6 +191,44 @@ class AccuWeatherComponentTemperatureDataclassConverter(DataclassConverter):
         ret_list = []
         for temp in temperature:
             ret_list.append(self._convert_from_dict(temp))
+
+        return ret_list
+
+    @staticmethod
+    def _get_proper_time(time):
+        return time[11:19]
+
+class AccuWeatherComponentDaylightDataclassConverter(DataclassConverter):
+
+    def __init__(self):
+        self.comp_dlight_dataclass = ComponentDaylight
+        self.daylight_key = 'IsDaylight'
+        self.datetime_key = 'DateTime'
+
+    def convert(self, daylight) -> list:
+        ret_list = []
+        if isinstance(daylight, list):
+            ret_list.extend(self._convert_from_list(daylight))
+        elif isinstance(daylight, dict):
+            ret_list.append(self._convert_from_dict(daylight))
+
+        return ret_list
+
+    def _convert_from_dict(self, dlight: dict) -> dataclass:
+        try:
+            time = self._get_proper_time(dlight[self.datetime_key])
+            daylight = dlight[self.daylight_key]
+
+            return self.comp_dlight_dataclass(time, daylight)
+
+        except KeyError as key:
+            logging.error(
+                f'Invalid key ({key}) in dictionary, cannot convert to dataclass')
+
+    def _convert_from_list(self, daylight: list) -> list:
+        ret_list = []
+        for item in daylight:
+            ret_list.append(self._convert_from_dict(item))
 
         return ret_list
 
