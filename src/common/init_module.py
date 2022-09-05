@@ -25,7 +25,6 @@ class Module:
         self.output_path = config['output_path']
         self.mode = config['mode']
         self.systems = SystemsXmlFileManager().get_data(config['entry_path'])
-        print(self.systems)
         self.forecasts_managers = [
             TemperatureManagerCreator(config['api_key'])
         ]
