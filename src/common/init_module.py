@@ -25,6 +25,7 @@ class Module:
         self.output_path = config['output_path']
         self.mode = config['mode']
         self.systems = SystemsXmlFileManager().get_data(config['entry_path'])
+        print(self.systems)
         self.forecasts_managers = [
             TemperatureManagerCreator(config['api_key'])
         ]
@@ -36,8 +37,12 @@ class Module:
             self._continous_run()
 
     def _single_run(self):
-        for system in self.systems:
-            self._get_data_and_save_to_file(system)
+        
+        if isinstance(self.systems, list):
+            for system in self.systems:
+                self._get_data_and_save_to_file(system)
+        else:
+            self._get_data_and_save_to_file(self.systems)
 
     def _continous_run(self):
         threads = []

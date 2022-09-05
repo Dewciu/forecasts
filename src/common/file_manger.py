@@ -60,7 +60,7 @@ class SystemsXmlFileManager:
 
     @staticmethod
     def _get_system_as_dataclass(system: dict) -> dataclass:
-        return SystemDataclassConverter().convert(system)[0]
+        return SystemDataclassConverter().convert(system)
 
     @staticmethod
     def _get_list_of_file_paths(directory: str) -> list:

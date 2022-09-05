@@ -69,15 +69,11 @@ class SystemDataclassConverter(DataclassConverter):
         self.filename_key = 'filename'
 
     def convert(self, systems) -> list:
-        ret_list = []
 
         if isinstance(systems, list):
-            ret_list.extend(self._convert_from_list(systems))
+            return self._convert_from_list(systems)
         elif isinstance(systems, dict):
-            ret_list.append(self._convert_from_dict(systems))
-
-        if ret_list != []:
-            return ret_list
+            return self._convert_from_dict(systems)
 
     def _convert_from_dict(self, system: dict) -> dataclass:
         try:

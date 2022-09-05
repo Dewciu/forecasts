@@ -70,12 +70,10 @@ class AccuWeatherGeopositionRequest(RequestCreator):
     q = Text to search for, should be comma-separated lat/lon pair (lat,lon)."""
 
     base_url = 'http://dataservice.accuweather.com/locations/v1/cities/geoposition/search'
-    base_url = 'http://dataservice.accuweather.com/locations/v1/cities/geoposition/seeee'
 
     def get_data(self, apikey: str, geo_position: str) -> list:
         self._set_credentials_for_request(apikey, geo_position)
         return self.request.get_data()
-        # return LOC
 
     def _set_credentials_for_request(self, apikey: str, geo_position: str):
         self.error_status_codes = [400, 401, 403, 404, 500, 503]
@@ -92,12 +90,10 @@ class AccuWeather12HoursForecastsRequest(RequestCreator):
     apikey = Provided API Key"""
 
     base_url = 'http://dataservice.accuweather.com/forecasts/v1/hourly/12hour'
-    base_url = 'http://dataservice.accuweather.com/forecasts/v1/hourly/12ho'
 
     def get_data(self, apikey: str, localization_id: str) -> list:
         self._set_credentials_for_request(apikey, localization_id)
         return self.request.get_data()
-        # return WEATHER
 
     def _set_credentials_for_request(self, apikey: str, localization_id: str) -> None:
         self.error_status_codes = [400, 401, 403, 404, 500, 503]
